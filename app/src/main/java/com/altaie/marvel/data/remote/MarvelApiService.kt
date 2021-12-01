@@ -2,7 +2,7 @@ package com.altaie.marvel.data.remote
 
 import com.altaie.marvel.data.remote.response.base.BaseResponse
 import com.altaie.marvel.data.remote.response.characters.CharacterDto
-import com.altaie.marvel.data.remote.response.comics.ComicsDto
+import com.altaie.marvel.data.remote.response.comics.ComicDto
 import com.altaie.marvel.data.remote.response.creators.CreatorDto
 import com.altaie.marvel.data.remote.response.events.EventDto
 import com.altaie.marvel.data.remote.response.series.SeriesDto
@@ -15,7 +15,7 @@ interface MarvelApiService {
     suspend fun getAllCharacters() : Response<BaseResponse<CharacterDto>>
 
     @GET("comics")
-    suspend fun getAllComics() : Response<BaseResponse<ComicsDto>>
+    suspend fun getAllComics() : Response<BaseResponse<ComicDto>>
 
     @GET("creators")
     suspend fun getAllCreators() : Response<BaseResponse<CreatorDto>>

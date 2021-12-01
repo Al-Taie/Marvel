@@ -1,16 +1,8 @@
 package com.altaie.marvel.domain
 
 import com.altaie.marvel.data.remote.Resources
-import com.altaie.marvel.data.remote.response.base.BaseResponse
-import com.altaie.marvel.data.remote.response.characters.CharactersDto
-import com.altaie.marvel.data.remote.response.comics.ComicsDto
-import com.altaie.marvel.data.remote.response.creators.CreatorDto
-import com.altaie.marvel.data.remote.response.events.EventDto
-import com.altaie.marvel.data.remote.response.series.SeriesDto
-import com.altaie.marvel.data.remote.response.stories.StoryDto
 import com.altaie.marvel.di.DependencyContainer
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 

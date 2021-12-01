@@ -1,15 +1,16 @@
 package com.altaie.marvel.data.remote.response.characters
 
 
+import com.altaie.marvel.data.remote.response.base.SubList
 import com.google.gson.annotations.SerializedName
 
 data class CharacterDto(
     @SerializedName("comics")
-    val comics: Comics?,
+    val comics: SubList?,
     @SerializedName("description")
     val description: String?,
     @SerializedName("events")
-    val events: Events?,
+    val events: SubList?,
     @SerializedName("id")
     val id: Int?,
     @SerializedName("modified")
@@ -19,11 +20,11 @@ data class CharacterDto(
     @SerializedName("resourceURI")
     val resourceURI: String?,
     @SerializedName("series")
-    val series: Series?,
+    val series: SubList?,
     @SerializedName("stories")
-    val stories: Stories?,
+    val stories: SubList?,
     @SerializedName("thumbnail")
-    val thumbnail: Thumbnail?,
+    val thumbnail: SubList?,
     @SerializedName("urls")
-    val urls: List<Url>?
+    val urls: List<SubList>?
 )

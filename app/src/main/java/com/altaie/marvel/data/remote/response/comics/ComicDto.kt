@@ -7,7 +7,7 @@ import com.altaie.marvel.data.remote.response.base.Thumbnail
 import com.altaie.marvel.data.remote.response.base.Url
 import com.google.gson.annotations.SerializedName
 
-data class ComicsDto(
+data class ComicDto(
     @SerializedName("characters")
     val characters: SubList?,
     @SerializedName("comics")
