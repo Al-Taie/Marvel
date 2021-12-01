@@ -18,6 +18,19 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        def configurationsPropertiesFile = rootProject.file("configurations.properties")
+        def configurationsProperties = new Properties()
+        configurationsProperties.load(new FileInputStream(configurationsPropertiesFile))
+
+        def KEY = "KEY", API_KEY = "API_KEY", BASE_URL = "BASE_URL"
+        buildConfigField("String", KEY, configurationsProperties[KEY])
+        buildConfigField("String", API_KEY, configurationsProperties[API_KEY])
+        buildConfigField("String", BASE_URL, configurationsProperties[BASE_URL])
+    }
+
+     buildFeatures {
+        dataBinding true
     }
 
     buildTypes {
@@ -25,10 +38,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
-    }
-
-    buildFeatures {
-        dataBinding true
     }
 
     compileOptions {
@@ -48,21 +57,22 @@ dependencies {
     // ORIGINAL
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.0'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'com.google.android.material:material:1.5.0-beta01'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.2'
-    testImplementation 'junit:junit:4.+'
+    testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
 
     // CODEC
-    implementation("commons-codec:commons-codec:1.15")
+    implementation('commons-codec:commons-codec:1.15')
 
     // DAGGER
-    implementation("com.google.dagger:hilt-android:2.38.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.38.1")
+    def hilt_version = '2.40.3'
+    implementation("com.google.dagger:hilt-android:$hilt_version")
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
 
     // GSON
-    implementation("com.google.code.gson:gson:2.8.8")
+    implementation('com.google.code.gson:gson:2.8.9')
 
     // NAVIGATION
     def nav_version = "2.4.0-beta02"
@@ -81,12 +91,19 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.2")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
-    implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
-    implementation("androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version")
 
-    //GLIDE
+    // OKHTTP
+    def okhttp_version = '5.0.0-alpha.3'
+    implementation("com.squareup.okhttp3:okhttp:$okhttp_version")
+    implementation("com.squareup.okhttp3:logging-interceptor:$okhttp_version")
+
+    // RETROFIT
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // GLIDE
     implementation("com.github.bumptech.glide:glide:4.12.0")
-    kapt("com.github.bumptech.glide:compiler:4.11.0")
+    kapt("com.github.bumptech.glide:compiler:4.12.0")
 
     // PALETTE
     implementation("androidx.palette:palette-ktx:1.0.0")
@@ -94,6 +111,5 @@ dependencies {
     // EXTENSIONS
     implementation("androidx.fragment:fragment-ktx:1.4.0")
     implementation("androidx.activity:activity-ktx:1.4.0")
-    implementation("androidx.collection:collection-ktx:")
-
+    implementation('androidx.collection:collection-ktx:1.1.0')
 }
