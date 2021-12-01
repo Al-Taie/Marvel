@@ -1,14 +1,19 @@
 package com.altaie.marvel
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
 import android.os.Bundle
+import android.util.AttributeSet
 import android.util.Log
-import com.altaie.marvel.utils.toMD5
-import java.util.*
+import android.view.View
+import androidx.lifecycle.lifecycleScope
+import com.altaie.marvel.data.remote.Resources
+import com.altaie.marvel.databinding.ActivityMainBinding
+import com.altaie.marvel.domain.MarvelRepositoryImpl
+import com.altaie.marvel.ui.base.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-    }
+//@AndroidEntryPoint
+class MainActivity : BaseActivity<ActivityMainBinding>() {
+    override val theme: Int = R.style.Theme_Marvel
+    override val viewID: Int = R.layout.activity_main
 }
