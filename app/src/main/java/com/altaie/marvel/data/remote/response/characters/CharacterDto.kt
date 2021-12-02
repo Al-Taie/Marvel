@@ -2,6 +2,7 @@ package com.altaie.marvel.data.remote.response.characters
 
 
 import com.altaie.marvel.data.remote.response.base.SubList
+import com.altaie.marvel.data.remote.response.base.Thumbnail
 import com.google.gson.annotations.SerializedName
 
 data class CharacterDto(
@@ -24,7 +25,7 @@ data class CharacterDto(
     @SerializedName("stories")
     val stories: SubList?,
     @SerializedName("thumbnail")
-    val thumbnail: SubList?,
+    val thumbnail: Thumbnail?,
     @SerializedName("urls")
     val urls: List<SubList>?
 )
