@@ -6,7 +6,7 @@ import androidx.databinding.ViewDataBinding
 
 
 abstract class BaseActivity<VDB : ViewDataBinding> : AppCompatActivity() {
-    abstract val theme: Int
+    abstract val activityTheme: Int
     abstract val viewID: Int
     private lateinit var _binding: VDB
     protected val binding get() = _binding
