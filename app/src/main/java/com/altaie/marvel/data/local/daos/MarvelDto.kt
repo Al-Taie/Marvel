@@ -3,6 +3,7 @@ package com.altaie.marvel.data.local.daos
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.altaie.marvel.data.local.entities.CharacterEntity
 import com.altaie.marvel.data.local.entities.ComicEntity
 
@@ -13,4 +14,10 @@ interface MarvelDto {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertComics(characters: List<ComicEntity>)
+
+    @Query("SELECT * FROM TB_CHARACTERS")
+    suspend fun getAllCharacters() : List<CharacterEntity>
+
+    @Query("SELECT * FROM TB_COMICS")
+    suspend fun getAllComics() : List<ComicEntity>
 }
