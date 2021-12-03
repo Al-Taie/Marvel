@@ -1,15 +1,18 @@
 package com.altaie.marvel.domain.mapper
 
 import com.altaie.marvel.data.local.entities.CharacterEntity
+import com.altaie.marvel.data.local.entities.ComicEntity
 import com.altaie.marvel.data.remote.response.characters.CharacterDto
+import com.altaie.marvel.data.remote.response.comics.ComicDto
 import com.altaie.marvel.domain.models.Character
+import com.altaie.marvel.domain.models.Comic
 
-class CharacterMapper : Mapper<CharacterDto, CharacterEntity, Character> {
-    override fun toEntity(input: CharacterDto): CharacterEntity {
+class ComicMapper : Mapper<ComicDto, ComicEntity, Comic> {
+    override fun toEntity(input: ComicDto): ComicEntity {
         return with(input) {
-            CharacterEntity(
+            ComicEntity(
                 id = id,
-                name = name,
+                title = title,
                 description = description,
                 imgUrl = with(thumbnail) {
                     "${this?.path?.replace("p:", "ps:")}.${this?.extension}"
@@ -19,11 +22,11 @@ class CharacterMapper : Mapper<CharacterDto, CharacterEntity, Character> {
         }
     }
 
-    override fun toObject(input: CharacterEntity): Character {
+    override fun toObject(input: ComicEntity): Comic {
         return with(input) {
-            Character(
+            Comic(
                 id = id,
-                name = name,
+                title = title,
                 description = description,
                 imgUrl = imgUrl,
                 modified = modified

@@ -1,4 +1,4 @@
-package com.altaie.marvel.di.modules
+package com.altaie.marvel.di
 
 import android.content.Context
 import androidx.room.Room

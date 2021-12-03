@@ -1,4 +1,4 @@
-package com.altaie.marvel.di.modules
+package com.altaie.marvel.di
 
 import com.altaie.marvel.BuildConfig
 import com.altaie.marvel.data.remote.AuthInterceptor
@@ -21,7 +21,7 @@ object NetworkModule {
     fun provideMarvelApiServices(
         okHttpClient: OkHttpClient,
         gsonConverterFactory: GsonConverterFactory
-    ) = Retrofit.Builder()
+    ): MarvelApiService = Retrofit.Builder()
         .baseUrl(BuildConfig.BASE_URL)
         .addConverterFactory(gsonConverterFactory)
         .client(okHttpClient)

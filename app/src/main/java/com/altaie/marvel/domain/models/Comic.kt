@@ -1,8 +1,8 @@
 package com.altaie.marvel.domain.models
 
-data class Character(
+data class Comic(
     val id: Int?,
-    val name: String?,
+    val title: String?,
     val description: String?,
     val modified: String?,
     val imgUrl: String?

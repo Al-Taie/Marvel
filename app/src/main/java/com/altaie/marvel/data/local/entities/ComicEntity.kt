@@ -13,5 +13,5 @@ data class ComicEntity(
     val modified: String?,
     val title: String?,
     @ColumnInfo(name = "image_url")
-    val imageUrl: String?
+    val imgUrl: String?
 )

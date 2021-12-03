@@ -12,5 +12,5 @@ data class CharacterEntity(
     val modified: String?,
     val name: String?,
     @ColumnInfo(name = "image_url")
-    val imageUrl: String?
+    val imgUrl: String?
 )
