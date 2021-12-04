@@ -8,4 +8,5 @@ class MarvelMapper @Inject constructor(
     val creatorMapper: CreatorMapper,
     val eventMapper: EventMapper,
     val storyMapper: StoryMapper,
+    val seriesMapper: SeriesMapper
 )

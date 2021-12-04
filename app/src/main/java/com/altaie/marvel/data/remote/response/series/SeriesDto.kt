@@ -15,7 +15,7 @@ data class SeriesDto(
     @SerializedName("creators")
     val creators: SubList?,
     @SerializedName("description")
-    val description: Any?,
+    val description: String?,
     @SerializedName("endYear")
     val endYear: Int?,
     @SerializedName("events")
