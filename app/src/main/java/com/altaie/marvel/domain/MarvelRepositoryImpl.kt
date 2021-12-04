@@ -1,12 +1,13 @@
 package com.altaie.marvel.domain
 
 import com.altaie.marvel.data.local.MarvelDatabase
+import com.altaie.marvel.data.local.entities.CharacterEntity
+import com.altaie.marvel.data.local.entities.ComicEntity
 import com.altaie.marvel.data.remote.MarvelApiService
 import com.altaie.marvel.data.remote.State
-import com.altaie.marvel.domain.mapper.BaseMapper
+import com.altaie.marvel.data.remote.response.base.BaseResponse
 import com.altaie.marvel.domain.mapper.Mapper
 import com.altaie.marvel.domain.mapper.MarvelMapper
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
@@ -15,32 +16,48 @@ import javax.inject.Inject
 
 class MarvelRepositoryImpl @Inject constructor(
     private val apiService: MarvelApiService,
-    private val marvelDatabase: MarvelDatabase,
+    marvelDatabase: MarvelDatabase,
     private val marvelMapper: MarvelMapper
 ) : MarvelRepository {
-    fun getAllCharacters() = wrapWithFlow { apiService.getAllCharacters() }
-    fun getAllComics() = wrapWithFlow { apiService.getAllComics() }
-    fun getAllCreators() = wrapWithFlow { apiService.getAllCreators() }
-    fun getAllEvents() = wrapWithFlow { apiService.getAllEvents() }
-    fun getAllSeries() = wrapWithFlow { apiService.getAllSeries() }
-    fun getAllStories() = wrapWithFlow { apiService.getAllStories() }
+    private val dao = marvelDatabase.marvelDao()
 
-    private fun <T> wrapWithFlow(function: suspend () -> Response<T>): Flow<State<T?>> =
+    suspend fun insertAllCharacters(characters: List<CharacterEntity>) = dao.insertCharacters(characters)
+    suspend fun insertAllComics(comics: List<ComicEntity>) = dao.insertComics(comics)
+
+    fun getAllCharactersDto() = wrapWithFlow(apiService::getAllCharacters, marvelMapper.characterMapper)
+    fun getAllCharacters() = wrapWithFlow(dao::getAllCharacters, marvelMapper.characterMapper)
+
+    fun getAllComicsDto() = wrapWithFlow(apiService::getAllComics, marvelMapper.comicMapper)
+    fun getAllComics() = wrapWithFlow(dao::getAllComics, marvelMapper.comicMapper)
+
+
+    @JvmName("wrapWithFlowModel")
+    private fun <ENTITY, MODEL> wrapWithFlow(
+        function: suspend () -> List<ENTITY>?,
+        mapper: Mapper<*, ENTITY, MODEL>
+    ) = flow {
+        emit(State.Loading)
+        function().run {
+            emit(if (this != null) State.Success(mapper.toModels(this)) else State.Error("No Items!"))
+        }
+    }.catch {
+        emit(State.Error(it.message.toString()))
+    }
+
+    @JvmName("wrapWithFlowDto")
+    private fun <DTO, ENTITY> wrapWithFlow(function: suspend () -> Response<BaseResponse<DTO>>,
+                                           mapper: Mapper<DTO, ENTITY, *>) =
         flow {
             emit(State.Loading)
-            emit(checkIfSuccessful(function()))
+            function().run {
+                val responseState = body()?.data?.results != null
+                if (isSuccessful and (responseState)) {
+                    body()?.data?.results?.let { emit(State.Success(mapper.toEntities(it))) }
+                } else {
+                    emit(State.Error(message()))
+                }
+            }
         }.catch {
             emit(State.Error(it.message.toString()))
-        }
-
-    private fun <T> checkIfSuccessful(result: Response<T>): State<T?> =
-        try {
-            if (result.isSuccessful) {
-                State.Success(result.body())
-            } else {
-                State.Error(result.message())
-            }
-        } catch (e: Exception) {
-            State.Error(e.message.toString())
         }
 }

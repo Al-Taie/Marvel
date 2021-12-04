@@ -21,13 +21,5 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.characterRecycler.adapter = CharactersAdapter(emptyList(), viewModel)
-
-        viewModel.characters.observe(this, { state ->
-            Log.v("TESTING", state.toData().toString())
-            state.toData()?.data?.results?.let {
-                binding.characterRecycler.adapter = CharactersAdapter(it, viewModel)
-            }
-
-        })
     }
 }

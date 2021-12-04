@@ -1,9 +1,7 @@
 package com.altaie.marvel.di
-
 import com.altaie.marvel.data.local.MarvelDatabase
 import com.altaie.marvel.data.remote.MarvelApiService
 import com.altaie.marvel.domain.MarvelRepositoryImpl
-import com.altaie.marvel.domain.mapper.BaseMapper
 import com.altaie.marvel.domain.mapper.CharacterMapper
 import com.altaie.marvel.domain.mapper.ComicMapper
 import com.altaie.marvel.domain.mapper.MarvelMapper
@@ -18,7 +16,7 @@ import javax.inject.Singleton
 object ApplicationModule {
     @Singleton
     @Provides
-     fun provideRepository(
+    fun provideRepository(
         apiService: MarvelApiService,
         marvelDatabase: MarvelDatabase,
         marvelMapper: MarvelMapper

@@ -19,7 +19,7 @@ class CharacterMapper : Mapper<CharacterDto, CharacterEntity, Character> {
         }
     }
 
-    override fun toObject(input: CharacterEntity): Character {
+    override fun toModel(input: CharacterEntity): Character {
         return with(input) {
             Character(
                 id = id,

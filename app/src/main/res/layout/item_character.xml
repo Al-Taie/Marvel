@@ -7,7 +7,7 @@
     <data>
         <variable
             name="item"
-            type="com.altaie.marvel.data.remote.response.characters.CharacterDto" />
+            type="com.altaie.marvel.domain.models.Character" />
 
         <variable
             name="listener"
@@ -23,7 +23,7 @@
             android:layout_width="120dp"
             android:layout_height="145dp"
             android:scaleType="fitXY"
-            app:image="@{item.thumbnail.path}"
+            app:image="@{item.imgUrl}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize10Percent"

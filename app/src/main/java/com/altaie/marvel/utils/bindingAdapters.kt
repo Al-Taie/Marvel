@@ -1,6 +1,5 @@
-package com.altaie.marvel.utils.bindingAdapters
+package com.altaie.marvel.utils
 
-import android.util.Log
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.altaie.marvel.R

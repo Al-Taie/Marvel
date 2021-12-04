@@ -22,7 +22,7 @@ class ComicMapper : Mapper<ComicDto, ComicEntity, Comic> {
         }
     }
 
-    override fun toObject(input: ComicEntity): Comic {
+    override fun toModel(input: ComicEntity): Comic {
         return with(input) {
             Comic(
                 id = id,
