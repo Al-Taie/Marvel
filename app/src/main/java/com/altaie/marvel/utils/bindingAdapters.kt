@@ -1,7 +1,9 @@
 package com.altaie.marvel.utils
 
+import android.graphics.Color
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.altaie.marvel.R
 import com.altaie.marvel.ui.base.BaseAdapter
 import com.bumptech.glide.Glide
@@ -18,18 +20,23 @@ fun <T> RecyclerView.setItems(items: List<T>?) {
 }
 
 @BindingAdapter("image")
-fun ShapeableImageView.setImage(imagePath: String?) {
+fun ShapeableImageView.setImage(imageUrl: String?) {
+    val circularProgressDrawable = CircularProgressDrawable(this.context).apply {
+        strokeWidth = 5f
+        centerRadius = 30f
+        setColorSchemeColors(Color.BLUE)
+        start()
+    }
+
     val options: RequestOptions = RequestOptions()
         .centerCrop()
-        .placeholder(R.drawable.progress_animation)
-        .error(R.drawable.load_error)
+        .placeholder(circularProgressDrawable)
+        .error(R.drawable.loading_error)
         .diskCacheStrategy(DiskCacheStrategy.ALL)
         .priority(Priority.HIGH)
-        .dontAnimate()
-        .dontTransform()
 
-    Glide.with(this)
-        .load("$imagePath.jpg")
+    Glide.with(this.context)
+        .load(imageUrl)
         .apply(options)
         .transition(DrawableTransitionOptions.withCrossFade())
         .into(this)

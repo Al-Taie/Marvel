@@ -14,9 +14,7 @@ class ComicMapper : Mapper<ComicDto, ComicEntity, Comic> {
                 id = id,
                 title = title,
                 description = description,
-                imgUrl = with(thumbnail) {
-                    "${this?.path?.replace("p:", "ps:")}.${this?.extension}"
-                },
+                imgUrl = thumbnail?.run { "$path.$extension" },
                 modified = modified
             )
         }

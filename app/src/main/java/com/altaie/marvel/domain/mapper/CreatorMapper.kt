@@ -10,9 +10,7 @@ class CreatorMapper : Mapper<CreatorDto, CreatorEntity, Creator> {
             CreatorEntity(
                 id = id,
                 name = fullName,
-                imgUrl = with(thumbnail) {
-                    "${this?.path?.replace("p:", "ps:")}.${this?.extension}"
-                },
+                imgUrl = thumbnail?.run { "$path.$extension" },
                 modified = modified
             )
         }

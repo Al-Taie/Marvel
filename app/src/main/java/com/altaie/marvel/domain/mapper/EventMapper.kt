@@ -16,9 +16,7 @@ class EventMapper : Mapper<EventDto, EventEntity, Event> {
                 start = start,
                 end = end,
                 description = description,
-                imgUrl = with(thumbnail) {
-                    "${this?.path?.replace("p:", "ps:")}.${this?.extension}"
-                },
+                imgUrl = thumbnail?.run { "$path.$extension" },
                 modified = modified
             )
         }

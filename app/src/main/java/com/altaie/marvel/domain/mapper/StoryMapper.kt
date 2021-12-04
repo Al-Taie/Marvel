@@ -12,9 +12,7 @@ class StoryMapper : Mapper<StoryDto, StoryEntity, Story> {
                 title = title,
                 type = type,
                 description = description,
-                imgUrl = with(thumbnail) {
-                    "${this?.path?.replace("p:", "ps:")}.${this?.extension}"
-                },
+                imgUrl = thumbnail?.run { "$path.$extension" },
                 modified = modified
             )
         }

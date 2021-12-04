@@ -11,9 +11,7 @@ class CharacterMapper : Mapper<CharacterDto, CharacterEntity, Character> {
                 id = id,
                 name = name,
                 description = description,
-                imgUrl = with(thumbnail) {
-                    "${this?.path?.replace("p:", "ps:")}.${this?.extension}"
-                },
+                imgUrl = thumbnail?.run { "$path.$extension" },
                 modified = modified
             )
         }
