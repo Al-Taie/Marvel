@@ -35,4 +35,8 @@ object ApplicationModule {
     @Singleton
     @Provides
     fun provideEventMapper() = EventMapper()
+
+    @Singleton
+    @Provides
+    fun provideStoryMapper() = StoryMapper()
 }

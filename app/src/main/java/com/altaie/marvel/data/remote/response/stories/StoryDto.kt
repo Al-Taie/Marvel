@@ -3,6 +3,7 @@ package com.altaie.marvel.data.remote.response.stories
 
 import com.altaie.marvel.data.remote.response.base.SubItem
 import com.altaie.marvel.data.remote.response.base.SubList
+import com.altaie.marvel.data.remote.response.base.Thumbnail
 import com.google.gson.annotations.SerializedName
 
 data class StoryDto(
@@ -27,7 +28,7 @@ data class StoryDto(
     @SerializedName("series")
     val series: SubList?,
     @SerializedName("thumbnail")
-    val thumbnail: Any?,
+    val thumbnail: Thumbnail?,
     @SerializedName("title")
     val title: String?,
     @SerializedName("type")
