@@ -4,6 +4,7 @@ import com.altaie.marvel.data.remote.MarvelApiService
 import com.altaie.marvel.domain.MarvelRepositoryImpl
 import com.altaie.marvel.domain.mapper.CharacterMapper
 import com.altaie.marvel.domain.mapper.ComicMapper
+import com.altaie.marvel.domain.mapper.CreatorMapper
 import com.altaie.marvel.domain.mapper.MarvelMapper
 import dagger.Module
 import dagger.Provides
@@ -30,4 +31,9 @@ object ApplicationModule {
     @Singleton
     @Provides
     fun provideComicMapper() = ComicMapper()
+
+
+    @Singleton
+    @Provides
+    fun provideCreatorMapper() = CreatorMapper()
 }
