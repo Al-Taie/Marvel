@@ -9,7 +9,7 @@ import com.altaie.marvel.data.local.entities.*
     entities = [
         CharacterEntity::class,
         ComicEntity::class,
-        ComicEntity::class,
+        CreatorEntity::class,
         EventEntity::class,
         SeriesEntity::class,
         StoryEntity::class],
