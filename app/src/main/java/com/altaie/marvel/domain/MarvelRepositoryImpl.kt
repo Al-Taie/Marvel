@@ -1,8 +1,7 @@
 package com.altaie.marvel.domain
 
 import com.altaie.marvel.data.local.MarvelDatabase
-import com.altaie.marvel.data.local.entities.CharacterEntity
-import com.altaie.marvel.data.local.entities.ComicEntity
+import com.altaie.marvel.data.local.entities.*
 import com.altaie.marvel.data.remote.MarvelApiService
 import com.altaie.marvel.data.remote.State
 import com.altaie.marvel.data.remote.response.base.BaseResponse
@@ -21,15 +20,34 @@ class MarvelRepositoryImpl @Inject constructor(
 ) : MarvelRepository {
     private val dao = marvelDatabase.marvelDao()
 
-    suspend fun insertAllCharacters(characters: List<CharacterEntity>) = dao.insertCharacters(characters)
-    suspend fun insertAllComics(comics: List<ComicEntity>) = dao.insertComics(comics)
+    suspend fun insertCharacters(characters: List<CharacterEntity>) =
+        dao.insertCharacters(characters)
 
-    fun getAllCharactersDto() = wrapWithFlow(apiService::getAllCharacters, marvelMapper.characterMapper)
+    suspend fun insertComics(comics: List<ComicEntity>) = dao.insertComics(comics)
+    suspend fun insertCreators(creators: List<CreatorEntity>) = dao.insertCreators(creators)
+    suspend fun insertEvents(events: List<EventEntity>) = dao.insertEvents(events)
+    suspend fun insertSeries(series: List<SeriesEntity>) = dao.insertSeries(series)
+    suspend fun insertStories(stories: List<StoryEntity>) = dao.insertStories(stories)
+
+    fun getAllCharactersDto() =
+        wrapWithFlow(apiService::getAllCharacters, marvelMapper.characterMapper)
+
     fun getAllCharacters() = wrapWithFlow(dao::getAllCharacters, marvelMapper.characterMapper)
 
     fun getAllComicsDto() = wrapWithFlow(apiService::getAllComics, marvelMapper.comicMapper)
     fun getAllComics() = wrapWithFlow(dao::getAllComics, marvelMapper.comicMapper)
 
+    fun getAllCreatorsDto() = wrapWithFlow(apiService::getAllCreators, marvelMapper.creatorMapper)
+    fun getAllCreators() = wrapWithFlow(dao::getAllCreators, marvelMapper.creatorMapper)
+
+    fun getAllEventsDto() = wrapWithFlow(apiService::getAllEvents, marvelMapper.eventMapper)
+    fun getAllEvents() = wrapWithFlow(dao::getAllEvents, marvelMapper.eventMapper)
+
+    fun getAllSeriesDto() = wrapWithFlow(apiService::getAllSeries, marvelMapper.seriesMapper)
+    fun getAllSeries() = wrapWithFlow(dao::getAllSeries, marvelMapper.seriesMapper)
+
+    fun getAllStoriesDto() = wrapWithFlow(apiService::getAllStories, marvelMapper.storyMapper)
+    fun getAllStories() = wrapWithFlow(dao::getAllStories, marvelMapper.storyMapper)
 
     @JvmName("wrapWithFlowModel")
     private fun <ENTITY, MODEL> wrapWithFlow(
@@ -45,8 +63,10 @@ class MarvelRepositoryImpl @Inject constructor(
     }
 
     @JvmName("wrapWithFlowDto")
-    private fun <DTO, ENTITY> wrapWithFlow(function: suspend () -> Response<BaseResponse<DTO>>,
-                                           mapper: Mapper<DTO, ENTITY, *>) =
+    private fun <DTO, ENTITY> wrapWithFlow(
+        function: suspend () -> Response<BaseResponse<DTO>>,
+        mapper: Mapper<DTO, ENTITY, *>
+    ) =
         flow {
             emit(State.Loading)
             function().run {
