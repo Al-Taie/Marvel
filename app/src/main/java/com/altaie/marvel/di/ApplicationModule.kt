@@ -39,4 +39,8 @@ object ApplicationModule {
     @Singleton
     @Provides
     fun provideStoryMapper() = StoryMapper()
+
+    @Singleton
+    @Provides
+    fun provideSeriesMapper() = SeriesMapper()
 }
