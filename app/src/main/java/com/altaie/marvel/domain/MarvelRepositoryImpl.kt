@@ -20,18 +20,14 @@ class MarvelRepositoryImpl @Inject constructor(
 ) : MarvelRepository {
     private val dao = marvelDatabase.marvelDao()
 
-    suspend fun insertCharacters(characters: List<CharacterEntity>) =
-        dao.insertCharacters(characters)
-
+    suspend fun insertCharacters(characters: List<CharacterEntity>) = dao.insertCharacters(characters)
     suspend fun insertComics(comics: List<ComicEntity>) = dao.insertComics(comics)
     suspend fun insertCreators(creators: List<CreatorEntity>) = dao.insertCreators(creators)
     suspend fun insertEvents(events: List<EventEntity>) = dao.insertEvents(events)
     suspend fun insertSeries(series: List<SeriesEntity>) = dao.insertSeries(series)
     suspend fun insertStories(stories: List<StoryEntity>) = dao.insertStories(stories)
 
-    fun getAllCharactersDto() =
-        wrapWithFlow(apiService::getAllCharacters, marvelMapper.characterMapper)
-
+    fun getAllCharactersDto() = wrapWithFlow(apiService::getAllCharacters, marvelMapper.characterMapper)
     fun getAllCharacters() = wrapWithFlow(dao::getAllCharacters, marvelMapper.characterMapper)
 
     fun getAllComicsDto() = wrapWithFlow(apiService::getAllComics, marvelMapper.comicMapper)
@@ -65,19 +61,17 @@ class MarvelRepositoryImpl @Inject constructor(
     @JvmName("wrapWithFlowDto")
     private fun <DTO, ENTITY> wrapWithFlow(
         function: suspend () -> Response<BaseResponse<DTO>>,
-        mapper: Mapper<DTO, ENTITY, *>
-    ) =
-        flow {
-            emit(State.Loading)
-            function().run {
-                val responseState = body()?.data?.results != null
-                if (isSuccessful and (responseState)) {
-                    body()?.data?.results?.let { emit(State.Success(mapper.toEntities(it))) }
-                } else {
-                    emit(State.Error(message()))
-                }
+        mapper: Mapper<DTO, ENTITY, *>) = flow {
+        emit(State.Loading)
+        function().run {
+            val responseState = body()?.data?.results != null
+            if (isSuccessful and (responseState)) {
+                body()?.data?.results?.let { emit(State.Success(mapper.toEntities(it))) }
+            } else {
+                emit(State.Error(message()))
             }
-        }.catch {
-            emit(State.Error(it.message.toString()))
         }
+    }.catch {
+        emit(State.Error(it.message.toString()))
+    }
 }

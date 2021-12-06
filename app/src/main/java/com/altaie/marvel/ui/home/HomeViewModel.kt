@@ -32,4 +32,5 @@ class HomeViewModel @Inject constructor(repository: MarvelRepositoryImpl) : Base
     }
 
     override fun onRecyclerItemClicked() { }
+    override fun onRecyclerShowMoreClicked() {}
 }

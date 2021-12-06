@@ -1,11 +1,8 @@
 package com.altaie.marvel.domain.mapper
 
 import com.altaie.marvel.data.local.entities.SeriesEntity
-import com.altaie.marvel.data.local.entities.StoryEntity
 import com.altaie.marvel.data.remote.response.series.SeriesDto
-import com.altaie.marvel.data.remote.response.stories.StoryDto
 import com.altaie.marvel.domain.models.Series
-import com.altaie.marvel.domain.models.Story
 
 class SeriesMapper : Mapper<SeriesDto, SeriesEntity, Series> {
     override fun toEntity(input: SeriesDto): SeriesEntity {
