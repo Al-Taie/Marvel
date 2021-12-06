@@ -26,16 +26,13 @@ abstract class BaseAdapter<T>(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder =
         ItemViewHolder(
             DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                layoutID,
-                parent,
-                false
+                LayoutInflater.from(parent.context), layoutID, parent, false
             )
         )
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
-        if (holder is ItemViewHolder) {
-            bind(holder, position)
+        when (holder) {
+            is ItemViewHolder -> bind(holder, position)
         }
     }
 
@@ -51,5 +48,4 @@ abstract class BaseAdapter<T>(
     class ItemViewHolder(val binding: ViewDataBinding) : BaseViewHolder(binding)
 
     abstract class BaseViewHolder(binding: ViewDataBinding) : RecyclerView.ViewHolder(binding.root)
-
 }
