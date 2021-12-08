@@ -31,7 +31,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             prepareParentAdapter(creators)
             prepareParentAdapter(events)
             prepareParentAdapter(series)
-            prepareParentAdapter(stories)
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener {
@@ -47,10 +46,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
                     when (item.firstOrNull()) {
                         is Character -> addItem(HomeItem.CharactersType(item.castTo()))
                         is Comic -> addItem(HomeItem.ComicsType(item.castTo()))
-                        is Creator -> addItem(HomeItem.ComicsType(item.castTo()))
+                        is Creator -> addItem(HomeItem.CreatorsType(item.castTo()))
                         is Event -> addItem(HomeItem.EventsType(item.castTo()))
                         is Series -> addItem(HomeItem.SeriesType(item.castTo()))
-                        is Story -> addItem(HomeItem.StoriesType(item.castTo()))
                     }
                 }
             }
