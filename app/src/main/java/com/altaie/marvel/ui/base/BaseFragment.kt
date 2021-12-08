@@ -22,7 +22,7 @@ abstract class BaseFragment<VDB : ViewDataBinding> : Fragment() {
     ): View? {
         _binding = inflate(inflater, container, false)
         _binding.setVariable(BR.viewModel, viewModel)
-        _binding.lifecycleOwner = this
+        _binding.lifecycleOwner = viewLifecycleOwner
         return _binding.root
     }
 }

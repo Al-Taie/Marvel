@@ -32,7 +32,6 @@ class HomeNestedAdapter(
             is HomeItem.CreatorsType -> applyBind(CreatorAdapter(item.data, listener))
             is HomeItem.EventsType -> applyBind(EventAdapter(item.data, listener))
             is HomeItem.SeriesType -> applyBind(SeriesAdapter(item.data, listener))
-            is HomeItem.StoriesType -> applyBind(StoryAdapter(item.data, listener))
         }
     }
 

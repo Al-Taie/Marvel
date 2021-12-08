@@ -113,5 +113,9 @@ dependencies {
     // EXTENSIONS
     implementation("androidx.fragment:fragment-ktx:1.4.0")
     implementation("androidx.activity:activity-ktx:1.4.0")
-    implementation('androidx.collection:collection-ktx:1.1.0')
+    implementation('androidx.collection:collection-ktx:1.2.0')
+
+    // RECYCLER LAYOUT MANAGER
+    implementation 'com.github.DingMouRen:LayoutManagerGroup:1e6f4f96eb'
+
 }
