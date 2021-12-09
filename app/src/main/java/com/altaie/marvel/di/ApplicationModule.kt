@@ -43,4 +43,8 @@ object ApplicationModule {
     @Singleton
     @Provides
     fun provideSeriesMapper() = SeriesMapper()
+
+    @Singleton
+    @Provides
+    fun provideSearchMapper() = SearchMapper()
 }

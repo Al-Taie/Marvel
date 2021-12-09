@@ -9,8 +9,13 @@ import com.altaie.marvel.data.remote.response.series.SeriesDto
 import com.altaie.marvel.data.remote.response.stories.StoryDto
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MarvelApiService {
+    @GET("characters")
+    suspend fun getCharacter(@Query("name") name: String) : Response<BaseResponse<CharacterDto>>
+
     @GET("characters")
     suspend fun getAllCharacters() : Response<BaseResponse<CharacterDto>>
 

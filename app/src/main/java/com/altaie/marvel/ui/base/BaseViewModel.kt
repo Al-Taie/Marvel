@@ -1,9 +1,6 @@
 package com.altaie.marvel.ui.base
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asFlow
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.altaie.marvel.data.remote.State
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -20,6 +17,13 @@ abstract class BaseViewModel : ViewModel() {
         function: suspend (arg: List<T>) -> Unit
     ) {
         viewModelScope.launch { liveData.asFlow().collect { it.toData()?.run { function(this) } } }
+    }
+
+    fun <T> liveDataLauncher(
+        liveData: MutableLiveData<State<List<T>>>,
+        repoValue: Flow<State<List<T>>>
+    ) {
+        viewModelScope.launch { repoValue.collect { it.toData()?.run { liveData.postValue(it) } } }
     }
 
     fun launcher(block: suspend CoroutineScope.() -> Unit) {

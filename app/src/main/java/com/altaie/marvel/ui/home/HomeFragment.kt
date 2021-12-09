@@ -14,6 +14,8 @@ import com.altaie.marvel.ui.base.BaseFragment
 import com.altaie.marvel.ui.home.adapters.HomeNestedAdapter
 import com.altaie.marvel.utils.castTo
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>() {

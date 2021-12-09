@@ -26,6 +26,9 @@ interface MarvelDto {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertStories(stories: List<StoryEntity>)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertSearched(searched: List<SearchEntity>)
+
     @Query("SELECT * FROM TB_CHARACTERS")
     suspend fun getAllCharacters() : List<CharacterEntity>
 
@@ -43,4 +46,10 @@ interface MarvelDto {
 
     @Query("SELECT * FROM TB_STORIES")
     suspend fun getAllStories() : List<StoryEntity>
+
+    @Query("SELECT * FROM TB_SEARCH WHERE name LIKE :query")
+    suspend fun getSearchByName(query: String) : List<SearchEntity>
+
+    @Query("SELECT * FROM TB_SEARCH")
+    suspend fun getAllSearched() : List<SearchEntity>
 }

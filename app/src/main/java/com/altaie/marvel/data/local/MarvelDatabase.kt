@@ -12,7 +12,8 @@ import com.altaie.marvel.data.local.entities.*
         CreatorEntity::class,
         EventEntity::class,
         SeriesEntity::class,
-        StoryEntity::class],
+        StoryEntity::class,
+        SearchEntity::class],
     version = 1,
     exportSchema = false
 )

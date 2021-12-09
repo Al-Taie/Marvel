@@ -10,6 +10,7 @@ import com.altaie.marvel.domain.mapper.MarvelMapper
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
+import retrofit2.http.Query
 import javax.inject.Inject
 
 
@@ -20,14 +21,52 @@ class MarvelRepositoryImpl @Inject constructor(
 ) : MarvelRepository {
     private val dao = marvelDatabase.marvelDao()
 
-    suspend fun insertCharacters(characters: List<CharacterEntity>) = dao.insertCharacters(characters)
+    suspend fun insertCharacters(characters: List<CharacterEntity>) =
+        dao.insertCharacters(characters)
+
     suspend fun insertComics(comics: List<ComicEntity>) = dao.insertComics(comics)
     suspend fun insertCreators(creators: List<CreatorEntity>) = dao.insertCreators(creators)
     suspend fun insertEvents(events: List<EventEntity>) = dao.insertEvents(events)
     suspend fun insertSeries(series: List<SeriesEntity>) = dao.insertSeries(series)
     suspend fun insertStories(stories: List<StoryEntity>) = dao.insertStories(stories)
+    private suspend fun insertSearched(searched: List<SearchEntity>) = dao.insertSearched(searched)
 
-    fun getAllCharactersDto() = wrapWithFlow(apiService::getAllCharacters, marvelMapper.characterMapper)
+    private suspend fun getSearchByName(query: String) = dao.getSearchByName(query)
+
+    private suspend fun getCharacterDto(@Query("name") name: String) =
+        with(apiService.getCharacter(name)) {
+            if (isSuccessful) {
+                body()?.data?.results?.run(marvelMapper.searchMapper::toEntities)?.let {
+                    insertSearched(it)
+                    return@let it
+                }
+            } else {
+                null
+            }
+        }
+
+    suspend fun searchForCharacter(name: String) = flow {
+        emit(State.Loading)
+        getSearchByName(name).run {
+            emit(
+                if (this.isEmpty()) {
+                    getCharacterDto(name).run {
+                        if (this == null) {
+                            State.Error("Not Found")
+                        } else {
+                            State.Success(marvelMapper.searchMapper.toModels(this))
+                        }
+                    }
+                } else {
+                    State.Success(marvelMapper.searchMapper.toModels(this))
+                }
+            )
+        }
+    }
+
+    fun getAllCharactersDto() =
+        wrapWithFlow(apiService::getAllCharacters, marvelMapper.characterMapper)
+
     fun getAllCharacters() = wrapWithFlow(dao::getAllCharacters, marvelMapper.characterMapper)
 
     fun getAllComicsDto() = wrapWithFlow(apiService::getAllComics, marvelMapper.comicMapper)
@@ -45,6 +84,8 @@ class MarvelRepositoryImpl @Inject constructor(
     fun getAllStoriesDto() = wrapWithFlow(apiService::getAllStories, marvelMapper.storyMapper)
     fun getAllStories() = wrapWithFlow(dao::getAllStories, marvelMapper.storyMapper)
 
+    fun getAllSearched() = wrapWithFlow(dao::getAllSearched, marvelMapper.searchMapper)
+
     @JvmName("wrapWithFlowModel")
     private fun <ENTITY, MODEL> wrapWithFlow(
         function: suspend () -> List<ENTITY>?,
@@ -61,7 +102,8 @@ class MarvelRepositoryImpl @Inject constructor(
     @JvmName("wrapWithFlowDto")
     private fun <DTO, ENTITY> wrapWithFlow(
         function: suspend () -> Response<BaseResponse<DTO>>,
-        mapper: Mapper<DTO, ENTITY, *>) = flow {
+        mapper: Mapper<DTO, ENTITY, *>
+    ) = flow {
         emit(State.Loading)
         function().run {
             val responseState = body()?.data?.results != null
